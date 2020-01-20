@@ -2,7 +2,6 @@ const { resolve } = require('path');
 
 require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
 const env = process.env.NODE_ENV;
@@ -41,17 +40,7 @@ const config = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(),
-    // new CopyWebpackPlugin([
-    //   { 
-    //     from: resolve("./src", "statics"),
-    //     to: "statics",
-    //     ignore: [
-    //       ".gitkeep"
-    //     ]
-    //   }
-    // ]),
-
+    new CleanWebpackPlugin()
   ],
 
   output: {
@@ -59,8 +48,12 @@ const config = {
     publicPath: '/',
     filename: '[name].js',
     chunkFilename: '[id].[hash].chunk.js'
-  }
+  },
 
+  stats: {
+    // Ignore warnings due to yarg's dynamic module loading
+    warningsFilter: [/node_modules\/yargs/],
+  },
 
 }
 
